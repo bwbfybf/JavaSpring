@@ -1,23 +1,27 @@
-// App.java
 package com.example.library;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class App {
     public static void main(String[] args) {
-        // Завантаження Spring контейнера та XML-конфігурації
-        System.out.println("Loading Spring Context...");
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans-config.xml");
+        System.out.println("Starting Spring Context using Java Config...");
 
-        // Отримання головного біна Рівня 1
-        Library library = (Library) context.getBean("libraryBean");
-        System.out.println("Context Loaded successfully.");
+        // 1. Завантаження контексту через Java-клас конфігурації
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+
         System.out.println("------------------------------------");
 
-        // Виклик методу для демонстрації DI
+        // 2. Отримання головного біна
+        // Spring шукає бін за назвою класу, але з малої літери: "library"
+        Library library = context.getBean("library", Library.class);
+
+        // 3. Виклик методу
         library.showInfo();
 
-        ((ClassPathXmlApplicationContext) context).close();
+        System.out.println("------------------------------------");
+        // 4. Обов'язково закриваємо контекст, щоб викликались @PreDestroy методи
+        context.close();
     }
 }
