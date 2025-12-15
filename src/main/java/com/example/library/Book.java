@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 @Component // Реєструє цей клас як Spring-бін
+
 public class Book {
 
     // Отримуємо значення з properties-файлу за допомогою @Value
